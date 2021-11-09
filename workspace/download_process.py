@@ -13,7 +13,7 @@ from utils import get_module_logger, parse_frame, int64_feature, int64_list_feat
     bytes_list_feature, bytes_feature, float_list_feature
 
 
-def create_tf_example(filename, encoded_jpeg, annotations, resize=True):
+def create_tf_example(filename, encoded_jpeg, annotations, resize=False):
     """
     This function create a tf.train.Example from the Waymo frame.
 
@@ -135,7 +135,7 @@ def download_and_process(filename, data_dir):
     process_tfr(local_path, data_dir)
     # remove the original tf record to save space
     logger.info(f'Deleting {local_path}')
-    # os.remove(local_path)
+    os.remove(local_path)
 
 
 if __name__ == "__main__":

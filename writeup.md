@@ -1,6 +1,8 @@
 # Object-Detection-in-an-Urban-Environment
 Udacity project one (computer vision)
 
+https://github.com/Naeemrazali/Object-Detection-in-an-Urban-Environment
+
 ## Project Overview
 Object detection is important for self-driving cars to be able to gain high level understanding of its environment from digital images captured from camera sensors. The car needs this information to be able to make optimal decisions such as at a stop sign or giving way to pedestrians at a zebra crossing. The aim of this project is to create a simple object detection model that can be used to identify cars, pedestrians, and cyclists from camera images.
 

@@ -12,34 +12,55 @@ The dataset comes from the video feed of a camera attached to the front of a car
 ![Alt text](https://user-images.githubusercontent.com/38019946/141030902-4a5a30a8-4046-45a0-9384-ef38efc45db4.png?raw=true "Ten images extracted from dataset")
 
 # Cross Validation 
-The dataset had a total of 100 tfrecord files. To approximately distribute data equally over the different sets, the dataset was randomly shuffled. After shuffling the data was split into training, validation and testing sets. 70% of the files were used for training, 20% for validation and 10% for testing. 
+The dataset consisted of 100 tfrecord files. To approximately distribute data equally over the different sets, the dataset was randomly shuffled. After shuffling the data was split into training, validation and testing sets. 70% of the files were used for training, 20% for validation and 10% for testing. 
 
 10% of data was put into the testing set to check if the model is overfitting.
 
 # Training 
 
 ## Reference Experiment
-This section should detail the results of the reference experiment. It should include training metrics and a detailed explanation of the algorithm's performance. 
+The training loss and validation loss graph is as below:
 
-The reference experiment used resnet-50 model without augmentations. 
+![Screenshot from 2021-11-15 20-59-21](https://user-images.githubusercontent.com/38019946/141743835-1f759182-8fd7-44fd-b61e-859b2c817e69.png)
 
-Initially the model was overfitting as the training loss was diverging from the validation loss. The training loss is indicated in orange and the validation loss is in blue. This divergence indicates a significant error rate during model validation - an indication that the model is overfitting. The precision and recall curves indicate that the performance of the model slowly increases, as both precision and recall start to increase. A high recall rate is often not suitable and the model performance is not that great.  
+The orange line represents the training loss, while the blue line represents the validation loss. Total loss for training and validation sets appear to converge. On closer inspection the values are 1.24 and 1.70 for training and validation loss respectively. Therefore, the model is slightly overfitting the training data. 
+
+The precision and recall of the model is shown below:
+![Screenshot from 2021-11-14 20-49-32](https://user-images.githubusercontent.com/38019946/141747672-18001c97-46f4-45bc-bb58-82c1591d8b7b.png)
+
+![Screenshot from 2021-11-14 20-49-59](https://user-images.githubusercontent.com/38019946/141748418-37527f13-57d8-4c2c-a5fe-7cd72f8e032a.png)
+
+The reference model precision and recall is represented by the dark blue line. The model precision and recall shows that it is still increasing. Which would mean that this model would benefit from having a larger dataset and increased steps for training.  
+
 
 ## Improvements Over Reference
- This section should highlight the different strategies you adopted to improve your model. It should contain relevant figures and details of your findings.
  
- To improve on the model performance, the first step was to augment the images by converting them to grayscale with a probability of 0.2. After this, we have clamped contrast values between 0.6 and 1.0 such that more ligthing datapoints are available for classification. A greater part of the images were a bit darker and increasing the brightness to 0.3 provided an even datapoint which could be better classfied with the model. The pipeline changes are there ine pipeline_new.config
- 
- Augmentations applied:
- * Augmentation
- * Augmentation 
+Augmentations were applied to the model to increase the performance. Two augmentations were used in the model: random contrast and random black boxes. Contrast is chosen randomly from between 0.8 and 1.25. Contrast augmentation was chosen to introduce more lighting variance to the dataset. A maximum of 15 boxes with size to image ratio of 0.07 with probability of 0.5 was chosen. Adding random black patches to the dataset was done to increase performance of the model when given images that are obscured. 
 
-Images of augmentations
+Images of augmentations:
 
-Images of the improved model
+![output](https://user-images.githubusercontent.com/38019946/141760185-502d3662-8d04-434e-99cd-7da033a4acf3.png)
 
-The loss is lower than the previous loss (un-augmented model). This is an indication of better performance. There should be more samples of augmented datapoints such as combining the caontrtast values with grayscale. Brightness can also be clamped within a limit instead of fixing it to 0.3. However, the most important point is to add more samples of cyclists, pedestrians which are in low quantity in the dataset. This is an inherent requirement since model biases play an important role in the loss curves and lesser the diversity in training samples, the lower will be the accuracy. 
+![output2](https://user-images.githubusercontent.com/38019946/141760196-9127f4b7-b44e-44db-9e18-d587ba2e64ef.png)
 
-We have reduced overfitting to an extent with augmentations, however better classification results would be resulting from a more balanced dataset. 
+![output3](https://user-images.githubusercontent.com/38019946/141760218-24121ba1-4412-41d7-b3eb-1a877d5969df.png)
+
+
+The learning rate of the model was decreased from 0.04 to 0.004. This was done to try to decrease model loss in the early stages of training (large initial loss). Warmup learning rate was also reduced to 0.0013333. Total number of steps was increased to 30000 from 25000 to try to increase the precision and recall of the model. 
+
+Images of the improved model:
+![Screenshot from 2021-11-15 20-58-35](https://user-images.githubusercontent.com/38019946/141743842-78d6684b-da77-4901-beb9-81fb2d064519.png)
+
+Training loss is represented by the dark red line while validation loss is represented by the blue line. The loss is slightly lower compared to the reference model at 0.46 and 0.93 for the training and validation loss respectively. Some overfitting is still present in the improved model. 
+
+The precision and recall of the model is shown below:
+![Screenshot from 2021-11-14 20-49-32](https://user-images.githubusercontent.com/38019946/141747672-18001c97-46f4-45bc-bb58-82c1591d8b7b.png)
+
+![Screenshot from 2021-11-14 20-49-59](https://user-images.githubusercontent.com/38019946/141748418-37527f13-57d8-4c2c-a5fe-7cd72f8e032a.png)
+
+From the above graphs, the improved model is represented by the light blue line while the reference model is represented by the dark blue line. The precisong of the improved model increased across the board. Recall for the improved model was capped at 0.12 due max_number_of_boxes being limited to 12 in an attempt to reduce the amount of resources required for training the model. The improved model did increase in performance over the reference model in some recall metrics. 
+
+The model performs well when presented with cars from a short to medium distance but struggles to identify cars from a long distance, and classifying pedestrians and cyclists. Improvements can be made by changing the model architecture to a more modern one and increasing training data for cyclists, pedestrians and cars from a distance
+
 
 

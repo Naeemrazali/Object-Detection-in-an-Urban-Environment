@@ -11,6 +11,12 @@ The dataset comes from the video feed of a camera attached to the front of a car
 
 ![Alt text](https://user-images.githubusercontent.com/38019946/141030902-4a5a30a8-4046-45a0-9384-ef38efc45db4.png?raw=true "Ten images extracted from dataset")
 
+A bar graph showing the total number of classes in the dataset is shown below:
+
+![Alt text](https://user-images.githubusercontent.com/38019946/141970546-c75391fa-cfa8-4ee3-9d06-73aee519fb31.png)
+   
+There are 264209 vehicles, 70613 pedestrians, and 2024 cyclists in the dataset. Compared to vehicles, pedestriancs and cyclists are under-represented in the dataset. Therefore, the model performance for detecting cyclists and pedestrians will be poor due to lack of data. 
+
 # Cross Validation 
 The dataset consisted of 100 tfrecord files. To approximately distribute data equally over the different sets, the dataset was randomly shuffled. After shuffling the data was split into training, validation and testing sets. 70% of the files were used for training, 20% for validation and 10% for testing. 
 
@@ -61,6 +67,3 @@ The precision and recall of the model is shown below:
 From the above graphs, the improved model is represented by the light blue line while the reference model is represented by the dark blue line. The precisong of the improved model increased across the board. Recall for the improved model was capped at 0.12 due max_number_of_boxes being limited to 12 in an attempt to reduce the amount of resources required for training the model. The improved model did increase in performance over the reference model in some recall metrics. 
 
 The model performs well when presented with cars from a short to medium distance but struggles to identify cars from a long distance, and classifying pedestrians and cyclists. Improvements can be made by changing the model architecture to a more modern one and increasing training data for cyclists, pedestrians and cars from a distance
-
-
-

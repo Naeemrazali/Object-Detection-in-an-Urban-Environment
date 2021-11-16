@@ -1,6 +1,8 @@
 # Object-Detection-in-an-Urban-Environment
 Udacity project one (computer vision)
 
+https://github.com/Naeemrazali/Object-Detection-in-an-Urban-Environment
+
 ## Project Overview
 Object detection is important for self-driving cars to be able to gain high level understanding of its environment from digital images captured from camera sensors. The car needs this information to be able to make optimal decisions such as at a stop sign or giving way to pedestrians at a zebra crossing. The aim of this project is to create a simple object detection model that can be used to identify cars, pedestrians, and cyclists from camera images.
 
@@ -61,6 +63,3 @@ The precision and recall of the model is shown below:
 From the above graphs, the improved model is represented by the light blue line while the reference model is represented by the dark blue line. The precisong of the improved model increased across the board. Recall for the improved model was capped at 0.12 due max_number_of_boxes being limited to 12 in an attempt to reduce the amount of resources required for training the model. The improved model did increase in performance over the reference model in some recall metrics. 
 
 The model performs well when presented with cars from a short to medium distance but struggles to identify cars from a long distance, and classifying pedestrians and cyclists. Improvements can be made by changing the model architecture to a more modern one and increasing training data for cyclists, pedestrians and cars from a distance
-
-
-
